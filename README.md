@@ -6,7 +6,7 @@
 
 **Disciplina:** Paradigmas de Programação
 
-**Professor:** \[Nome do Professor\]
+**Professor:** Rafael Will Macedo de Araújo
 
 ## **Go \- Concorrência Baseada em Goroutines e Channels**
 
