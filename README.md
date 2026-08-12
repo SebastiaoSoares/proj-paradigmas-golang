@@ -22,7 +22,7 @@ Buscamos demonstrar como Go simplifica o desenvolvimento de aplicações concorr
 4. Pedro Yan Alcantara Palácio  
 5. Sabrina Alencar Soares  
 6. Samuel Wagner Tiburi Silveira  
-7. Sebastião Sousa Soares (Gerente de Projeto)
+7. Sebastião Sousa Soares
 
 ## **Objetivos do Projeto**
 
