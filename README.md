@@ -38,18 +38,18 @@ Atendendo às especificações da disciplina, este projeto cobre os seguintes t�
 
 O repositório foi organizado da seguinte forma para facilitar a avaliação e o estudo futuro:
 ```
-├── docs/                                    \# Documentação teórica e pesquisas (Markdown)  
-│   ├── 1\_historia\_e\_conceitos.md         \# Contexto histórico e motivações do Go  
-│   ├── 2\_teoria\_goroutines\_channels.md   \# Fundamentos de concorrência em Go  
-│   ├── 3\_comparativo\_threads.md           \# Comparação técnica (Go vs Threads tradicionais)  
-│   ├── 4\_analise\_critica.md               \# Maturidade, ecossistema e limitações  
-│   └── referencias.md                       \# Referências bibliográficas  
-├── src/                                     \# Código-fonte dos exemplos e estudo de caso  
-│   ├── exemplos\_basicos/                   \# Protótipos curtos demonstrando sintaxe  
-│   ├── interoperabilidade/                  \# Exemplo de integração (Go \+ Python)  
-│   └── estudo\_de\_caso/                    \# Aplicação real concorrente (Estudo principal)  
-├── INSTRUCTIONS.md                          \# Guia de compilação, instalação e execução  
-└── README.md                                \# Visão geral do projeto (este arquivo)
+├── docs/                                    # Documentação teórica e pesquisas (Markdown)  
+│   ├── 1_historia_e_conceitos.md            # Contexto histórico e motivações do Go  
+│   ├── 2_teoria_goroutines_channels.md      # Fundamentos de concorrência em Go  
+│   ├── 3_comparativo_threads.md             # Comparação técnica (Go vs Threads tradicionais)  
+│   ├── 4_analise_critica.md                 # Maturidade, ecossistema e limitações  
+│   └── referencias.md                       # Referências bibliográficas  
+├── src/                                     # Código-fonte dos exemplos e estudo de caso  
+│   ├── exemplos_basicos/                    # Protótipos curtos demonstrando sintaxe  
+│   ├── interoperabilidade/                  # Exemplo de integração (Go + Python)  
+│   └── estudo_de_caso/                      # Aplicação real concorrente (Estudo principal)  
+├── INSTRUCTIONS.md                          # Guia de compilação, instalação e execução  
+└── README.md                                # Visão geral do projeto (este arquivo)
 ```
 
 ## **Como Executar os Códigos**
