@@ -16,13 +16,13 @@ Buscamos demonstrar como Go simplifica o desenvolvimento de aplicações concorr
 
 ### **Equipe 2 (Integrantes)**
 
-1. Elder Rayan Oliveira Silva  
-2. Espedio Ramom Mascena Ricarto  
-3. Manoel Junio Duarte da Silva  
-4. Pedro Yan Alcantara Palácio  
-5. Sabrina Alencar Soares  
-6. Samuel Wagner Tiburi Silveira  
-7. Sebastião Sousa Soares
+1. Elder Rayan Oliveira Silva ([@eldrayan](https://github.com/eldrayan))
+2. Espedio Ramom Mascena Ricarto ([@RamomRicarto](https://github.com/RamomRicarto))
+3. Manoel Junio Duarte da Silva ([@Junio404](https://github.com/Junio404))
+4. Pedro Yan Alcantara Palácio ([@pedropalacioo](https://github.com/pedropalacioo))
+5. Sabrina Alencar Soares ([@sabrinaalencaar](https://github.com/sabrinaalencaar))
+6. Samuel Wagner Tiburi Silveira ([@samsilveira](https://github.com/samsilveira))
+7. Sebastião Sousa Soares ([@SebastiaoSoares](https://github.com/SebastiaoSoares))
 
 ## **Objetivos do Projeto**
 
