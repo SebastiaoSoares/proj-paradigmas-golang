@@ -51,7 +51,7 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   └── estudocaso/
 ├── go.mod                                  # Arquivo de módulo gerado pelo Go
 ├── main.go                                 # Ponto de entrada com o menu interativo
-├── instrucoes.md                           # Como rodar o CLI e usar o menu
+├── INSTRUCTIONS.md                         # Como rodar o CLI e usar o menu
 └── README.md                               # Visão geral do projeto
 ```
 
