@@ -16,13 +16,13 @@ Buscamos demonstrar como Go simplifica o desenvolvimento de aplicações concorr
 
 ### **Equipe 2 (Integrantes)**
 
-1. Elder Rayan Oliveira Silva  
-2. Espedio Ramom Mascena Ricarto  
-3. Manoel Junio Duarte da Silva  
-4. Pedro Yan Alcantara Palácio  
-5. Sabrina Alencar Soares  
-6. Samuel Wagner Tiburi Silveira  
-7. Sebastião Sousa Soares
+1. Elder Rayan Oliveira Silva ([@eldrayan](https://github.com/eldrayan))
+2. Espedio Ramom Mascena Ricarto ([@RamomRicarto](https://github.com/RamomRicarto))
+3. Manoel Junio Duarte da Silva ([@Junio404](https://github.com/Junio404))
+4. Pedro Yan Alcantara Palácio ([@pedropalacioo](https://github.com/pedropalacioo))
+5. Sabrina Alencar Soares ([@sabrinaalencaar](https://github.com/sabrinaalencaar))
+6. Samuel Wagner Tiburi Silveira ([@samsilveira](https://github.com/samsilveira))
+7. Sebastião Sousa Soares ([@SebastiaoSoares](https://github.com/SebastiaoSoares))
 
 ## **Objetivos do Projeto**
 
@@ -38,30 +38,29 @@ Atendendo às especificações da disciplina, este projeto cobre os seguintes t�
 
 O repositório foi organizado da seguinte forma para facilitar a avaliação e o estudo futuro:
 ```
-├── docs/                                    # Documentação teórica e pesquisas (Markdown)  
-│   ├── 1_historia_e_conceitos.md            # Contexto histórico e motivações do Go  
-│   ├── 2_teoria_goroutines_channels.md      # Fundamentos de concorrência em Go  
-│   ├── 3_comparativo_threads.md             # Comparação técnica (Go vs Threads tradicionais)  
-│   ├── 4_analise_critica.md                 # Maturidade, ecossistema e limitações  
-│   └── referencias.md                       # Referências bibliográficas  
-├── src/                                     # Código-fonte dos exemplos e estudo de caso  
-│   ├── exemplos_basicos/                    # Protótipos curtos demonstrando sintaxe  
-│   ├── interoperabilidade/                  # Exemplo de integração (Go + Python)  
-│   └── estudo_de_caso/                      # Aplicação real concorrente (Estudo principal)  
-├── INSTRUCTIONS.md                          # Guia de compilação, instalação e execução  
-└── README.md                                # Visão geral do projeto (este arquivo)
+├── docs/                                   # Documentação teórica interconectada
+│   ├── 0_indice.md                         # Menu central da documentação
+│   ├── 1_historia_e_conceitos.md       
+│   ├── 2_teoria_goroutines_channels.md 
+│   ├── 3_comparativo_threads.md        
+│   ├── 4_analise_critica.md            
+│   └── referencias.md                  
+├── internal/                               # Código-fonte organizado em pacotes Go
+│   ├── exemplos/
+│   ├── interoperabilidade/
+│   └── estudocaso/
+├── go.mod                                  # Arquivo de módulo gerado pelo Go
+├── main.go                                 # Ponto de entrada com o menu interativo
+├── INSTRUCTIONS.md                         # Como rodar o CLI e usar o menu
+└── README.md                               # Visão geral do projeto
 ```
 
 ## **Como Executar os Códigos**
 
-Para garantir a reprodutibilidade dos nossos experimentos por qualquer estudante ou avaliador, preparamos um guia passo a passo.
+Para garantir a reprodutibilidade dos nossos experimentos, preparamos um guia passo a passo.
 
 Por favor, consulte o arquivo [**INSTRUCTIONS.md**](./INSTRUCTIONS.md) na raiz deste repositório. Lá você encontrará:
 
 * Requisitos de sistema (versão do Go, dependências, etc).  
-* Instruções de compilação e execução para os exemplos básicos.  
-* Passo a passo para rodar o Estudo de Caso.
-
-## **Histórico e Organização**
-
-Este projeto foi gerido utilizando o sistema de *Issues* e *Branches* do GitHub, com entregas divididas de forma simultânea entre os 7 membros da equipe, garantindo a conclusão e congelamento do repositório até o prazo estipulado de **18/08/2020**.
+* Instruções de compilação e execução do menu CLI.  
+* Passo a passo para rodar o Estudo de Caso e exemplos básicos.
