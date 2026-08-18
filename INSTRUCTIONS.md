@@ -43,11 +43,25 @@ O menu aceita frases com espaços, limpa a tela entre interações e usa cores A
 3. Pressione a tecla **Enter** para confirmar e executar a funcionalidade.
 4. Para retornar ou finalizar a aplicação, utilize a opção de saída (geralmente `0`).
 
-A opção **4** executa integralmente o comparativo: testes Go com detector de corridas, testes Python, compilação C, exibição das três saídas completas e comparação dos resultados. Ela requer todos os pré-requisitos do comparativo listados abaixo.
+A opção **4** primeiro apresenta a execução visual dos workers nas três linguagens e depois executa integralmente a verificação: testes Go com detector de corridas, testes Python, compilação C, exibição das três saídas completas e comparação dos resultados. Ela requer todos os pré-requisitos do comparativo listados abaixo.
 
 **Nota:** Para produzir logs sem cores, defina a variável de ambiente `NO_COLOR`. O monitoramento requer acesso à internet. Códigos HTTP e mensagens podem variar conforme a rede e a disponibilidade dos serviços. A URL inválida faz parte do exemplo e demonstra o tratamento de falhas.
 
 ## Comparativo Go, C/pthreads e Python
+
+### Demonstração visual guiada
+
+```bash
+./examples/comparativo/demonstrar.sh
+```
+
+Para executar automaticamente, sem pausas entre as linguagens:
+
+```bash
+./examples/comparativo/demonstrar.sh --auto
+```
+
+Cada implementação aceita `--visual` isoladamente. A pausa visual é didática e não representa desempenho.
 
 ### Versão Go
 

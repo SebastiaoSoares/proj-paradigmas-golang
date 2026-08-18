@@ -32,7 +32,7 @@ Atendendo às especificações da disciplina, este projeto cobre os seguintes t�
 * **Fundamentos Teóricos:** Mecanismos de funcionamento de *Goroutines* e *Channels*.  
 * **Comparativo Técnico:** Vantagens, limitações e cenários do modelo de concorrência do Go frente às [threads em C e Python](./docs/3_comparativo_threads.md).
 * **Análise Crítica:** Avaliação da maturidade, ecossistema, comunidade e limitações da linguagem.  
-* **Prática e Estudo de Caso:** Códigos de demonstração e uma aplicação real (ex: Servidor Web / Processamento Paralelo) desenvolvida em Go.
+* **Prática e Estudo de Caso:** Códigos de demonstração, um comparativo visual ao vivo e uma aplicação real (ex: Servidor Web / Processamento Paralelo) desenvolvida em Go.
 
 ## **Estrutura do Repositório**
 
@@ -56,6 +56,7 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   ├── go/                                 # Goroutines e channels
 │   ├── c/                                  # Mutex e variáveis de condição POSIX
 │   ├── python/                             # Thread e Queue da biblioteca padrão
+│   ├── demonstrar.sh                       # Visualiza fila e workers nas três linguagens
 │   └── verificar.sh                        # Testa e compara as três implementações
 ├── go.mod                                  # Arquivo de módulo gerado pelo Go
 ├── main.go                                 # Ponto de entrada do CLI unificado

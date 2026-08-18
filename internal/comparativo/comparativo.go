@@ -3,44 +3,44 @@ package comparativo
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
 	"paradigmas_golang/internal/terminal"
 	"path/filepath"
 	"runtime"
-	"strings"
 )
 
-// Verificar executa o script que testa Go, C/pthreads e Python e compara suas saídas.
-func Verificar() {
-	terminal.Titulo("COMPARATIVO COMPLETO · GO, C E PYTHON", "Testes, execuções e comparação integral das saídas")
+// Executar apresenta o fluxo visual e depois testa e compara as saídas determinísticas.
+func Executar() {
+	terminal.Titulo("COMPARATIVO · GO, C E PYTHON", "Visualização dos workers seguida da verificação integral")
 
-	caminho, err := caminhoScript()
-	if err != nil {
-		terminal.Erro("Não foi possível localizar o comparativo: %v", err)
+	if err := executarScript("demonstrar.sh", "--auto"); err != nil {
+		terminal.Erro("Demonstração visual falhou: %v", err)
 		return
 	}
-
-	terminal.Info("Executando examples/comparativo/verificar.sh...")
-	comando := exec.Command("sh", caminho)
-	saida, err := comando.CombinedOutput()
-	if len(saida) > 0 {
-		fmt.Print(string(saida))
-		if !strings.HasSuffix(string(saida), "\n") {
-			fmt.Println()
-		}
-	}
-	if err != nil {
-		terminal.Erro("Comparativo reprovado: %v", err)
+	if err := executarScript("verificar.sh"); err != nil {
+		terminal.Erro("Verificação do comparativo falhou: %v", err)
 		return
 	}
 	terminal.Sucesso("Comparativo completo aprovado")
 }
 
-func caminhoScript() (string, error) {
+func diretorioScripts() (string, error) {
 	_, arquivoAtual, _, ok := runtime.Caller(0)
 	if !ok {
 		return "", fmt.Errorf("diretório do pacote indisponível")
 	}
-	caminho := filepath.Join(filepath.Dir(arquivoAtual), "..", "..", "examples", "comparativo", "verificar.sh")
-	return filepath.Clean(caminho), nil
+	return filepath.Clean(filepath.Join(filepath.Dir(arquivoAtual), "..", "..", "examples", "comparativo")), nil
+}
+
+func executarScript(nome string, argumentos ...string) error {
+	diretorio, err := diretorioScripts()
+	if err != nil {
+		return err
+	}
+	comando := exec.Command("sh", append([]string{filepath.Join(diretorio, nome)}, argumentos...)...)
+	comando.Stdin = os.Stdin
+	comando.Stdout = os.Stdout
+	comando.Stderr = os.Stderr
+	return comando.Run()
 }

@@ -51,7 +51,7 @@ func executarMenu(leitor *bufio.Reader, acoes acoesMenu) {
 		terminal.Opcao("1", "Exemplos Basicos")
 		terminal.Opcao("2", "Interoperabilidade Python")
 		terminal.Opcao("3", "Estudo de Caso (Monitor de Uptime)")
-		terminal.Opcao("4", "Testar Comparativo Completo (Go, C e Python)")
+		terminal.Opcao("4", "Comparativo Visual e Verificação (Go × C × Python)")
 		terminal.Opcao("0", "Sair")
 		fmt.Println()
 		terminal.Prompt("Escolha uma opção: ")
@@ -97,6 +97,6 @@ func main() {
 		exemplos: executarExemplosBasicos,
 		interop:  executarInteroperabilidade,
 		monitor:  estudocaso.IniciarMonitoramento,
-		comparar: comparativo.Verificar,
+		comparar: comparativo.Executar,
 	})
 }
