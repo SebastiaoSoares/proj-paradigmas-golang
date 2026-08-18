@@ -28,8 +28,19 @@ cc \
     -o "$build_dir/comparativo-c"
 
 "$build_dir/comparativo-c" >"$build_dir/c.out"
+
+printf '\n=== SAÍDA GO (goroutines e channels) ===\n'
+cat "$build_dir/go.out"
+printf '\n=== SAÍDA C (pthreads) ===\n'
+cat "$build_dir/c.out"
+printf '\n=== SAÍDA PYTHON (threads e Queue) ===\n'
+cat "$build_dir/python.out"
+
+printf '\n=== COMPARAÇÃO DAS SAÍDAS ===\n'
 diff -u "$build_dir/go.out" "$build_dir/c.out"
 diff -u "$build_dir/go.out" "$build_dir/python.out"
 
 printf '%s\n' \
-    "Comparativo verificado: testes passaram e as saídas Go/C/Python são iguais."
+    "Go x C: saídas iguais." \
+    "Go x Python: saídas iguais." \
+    "Comparativo verificado: testes passaram e as três implementações produziram o mesmo resultado."

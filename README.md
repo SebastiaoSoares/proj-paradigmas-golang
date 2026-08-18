@@ -44,8 +44,10 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   ├── 2_teoria_goroutines_channels.md 
 │   ├── 3_comparativo_threads.md        
 │   ├── 4_analise_critica.md            
+│   ├── 5_roteiro_apresentacao.md       # Material visual e divisão das falas
 │   └── referencias.md                  
 ├── internal/                               # Pacotes usados pelo CLI
+│   ├── comparativo/                        # Worker pool comparativo integrado ao menu
 │   ├── exemplos/                           # WaitGroup e channels
 │   ├── interop/                            # Integração local entre Go e Python
 │   ├── estudocaso/                         # Monitoramento concorrente de URLs
