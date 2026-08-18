@@ -47,7 +47,7 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   └── referencias.md                  
 ├── internal/                               # Código-fonte organizado em pacotes Go
 │   ├── exemplos/
-│   ├── interoperabilidade/
+│   ├── interop/                            # Integração local entre Go e Python
 │   └── estudocaso/
 ├── go.mod                                  # Arquivo de módulo gerado pelo Go
 ├── main.go                                 # Ponto de entrada com o menu interativo
