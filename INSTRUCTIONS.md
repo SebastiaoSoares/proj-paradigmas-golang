@@ -1,31 +1,35 @@
 # Instalação e execução
 
-Este guia descreve como reproduzir os exemplos do repositório a partir de sua raiz.
+Este guia descreve como reproduzir o CLI e os exemplos do repositório a partir de sua raiz.
 
 ## Pré-requisitos
 
 - Go na versão declarada em [`go.mod`](go.mod);
-- Python 3.9 ou posterior para a implementação com `threading` e `queue`;
-- para o comparativo em C: sistema compatível com POSIX e compilador C com suporte a pthreads (`cc`, GCC ou Clang);
-- para a verificação automática: shell POSIX e `diff`.
+- Python 3.9 ou posterior, disponível como `python3` ou `python`;
+- para o comparativo em C: sistema compatível com POSIX e compilador com suporte a pthreads (`cc`, GCC ou Clang);
+- para a verificação automática do comparativo: shell POSIX e `diff`.
 
-Confirme as ferramentas disponíveis:
+O módulo usa apenas a biblioteca padrão de Go, sem dependências Go de terceiros.
 
-```bash
-go version
-python3 --version
-cc --version
-```
-
-O módulo usa apenas a biblioteca padrão de Go, portanto não há dependências Go de terceiros para instalar.
-
-## Estudo de caso: monitoramento de URLs
+## CLI unificada
 
 ```bash
 go run .
 ```
 
-O programa faz requisições de rede concorrentes. É necessário acesso à internet; códigos HTTP e mensagens de erro podem variar conforme rede e disponibilidade dos serviços. Uma URL inválida faz parte do exemplo para demonstrar tratamento de falha.
+O menu oferece:
+
+1. exemplos básicos de WaitGroup e channels;
+2. interoperabilidade entre Go e Python;
+3. estudo de caso de monitoramento concorrente de uptime;
+0. encerramento do programa.
+
+O menu aceita frases com espaços, limpa a tela entre interações e usa cores ANSI.
+Para produzir logs sem cores, defina a variável de ambiente `NO_COLOR`.
+
+O monitor requer acesso à internet. Códigos HTTP e mensagens podem variar conforme
+a rede e a disponibilidade dos serviços. A URL inválida faz parte do exemplo e
+demonstra o tratamento de falhas.
 
 ## Comparativo Go, C/pthreads e Python
 
@@ -57,18 +61,11 @@ As três versões devem informar `17984` primos entre 2 e 200000.
 ./examples/comparativo/verificar.sh
 ```
 
-A verificação:
-
-1. executa os testes Go com o detector de data races;
-2. executa os testes Python com `unittest`;
-3. executa as versões Go e Python;
-4. compila C com avisos tratados como erros;
-5. executa a versão C;
-6. compara as três saídas byte a byte.
-
+A verificação executa testes Go com o detector de data races, executa testes
+Python, compila C com avisos tratados como erros e compara as três saídas.
 Artefatos de compilação são criados em um diretório temporário e removidos ao final.
 
-## Verificações adicionais do módulo Go
+## Verificações adicionais
 
 ```bash
 go test ./...
@@ -77,9 +74,10 @@ go vet ./...
 gofmt -d .
 ```
 
-O detector de corridas observa apenas os caminhos efetivamente executados. Um resultado sem alertas aumenta a confiança no teste realizado, mas não prova ausência de toda data race possível.
+O detector de corridas observa somente os caminhos executados e não prova a
+ausência de toda data race possível.
 
-## Verificação isolada da implementação Python
+Para testar apenas a implementação Python:
 
 ```bash
 python3 -B -m unittest discover \
@@ -87,7 +85,8 @@ python3 -B -m unittest discover \
   -p 'test_*.py'
 ```
 
-O exemplo usa somente a biblioteca padrão. Na build padrão do CPython, o GIL limita o paralelismo de bytecode em cargas de CPU; builds *free-threaded* devem ser identificadas e avaliadas separadamente.
+Na build padrão do CPython, o GIL limita o paralelismo de bytecode em cargas de
+CPU; builds *free-threaded* devem ser identificadas e avaliadas separadamente.
 
 ## Leitura relacionada
 

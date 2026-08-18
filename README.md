@@ -45,14 +45,18 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   ├── 3_comparativo_threads.md        
 │   ├── 4_analise_critica.md            
 │   └── referencias.md                  
-├── internal/estudocaso/                    # Monitoramento concorrente de URLs
+├── internal/                               # Pacotes usados pelo CLI
+│   ├── exemplos/                           # WaitGroup e channels
+│   ├── interop/                            # Integração local entre Go e Python
+│   ├── estudocaso/                         # Monitoramento concorrente de URLs
+│   └── terminal/                           # Identidade visual do terminal
 ├── examples/comparativo/                   # Mesmo worker pool em três linguagens
 │   ├── go/                                 # Goroutines e channels
 │   ├── c/                                  # Mutex e variáveis de condição POSIX
 │   ├── python/                             # Thread e Queue da biblioteca padrão
 │   └── verificar.sh                        # Testa e compara as três implementações
 ├── go.mod                                  # Arquivo de módulo gerado pelo Go
-├── main.go                                 # Ponto de entrada do estudo de caso
+├── main.go                                 # Ponto de entrada do CLI unificado
 ├── INSTRUCTIONS.md                         # Instalação, execução e verificação
 └── README.md                               # Visão geral do projeto
 ```

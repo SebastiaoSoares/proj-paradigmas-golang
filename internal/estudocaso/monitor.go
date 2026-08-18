@@ -3,6 +3,7 @@ package estudocaso
 import (
 	"fmt"
 	"net/http"
+	"paradigmas_golang/internal/terminal"
 	"sync"
 	"time"
 )
@@ -20,29 +21,30 @@ func IniciarMonitoramento() {
 		"https://www.google.com",
 		"https://httpbin.org/get",
 		"https://www.cloudflare.com",
-		"https://invalid-url-for-testing.local", 
+		"https://invalid-url-for-testing.local",
 	}
 
 	resultadosCh := make(chan Resultado)
-	
+
 	var wg sync.WaitGroup
 
-	fmt.Println("=== Iniciando Monitoramento de Uptime ===")
+	terminal.Info("Disparando %d verificações concorrentes...", len(urls))
 
 	for _, url := range urls {
-		wg.Add(1) 
-		
+		wg.Add(1)
+
 		go func(u string) {
-			defer wg.Done() 
+			defer wg.Done()
 
 			client := &http.Client{
 				Timeout: 5 * time.Second,
 			}
 
+			inicio := time.Now()
 			resp, err := client.Get(u)
-			
+
 			if err != nil {
-				resultadosCh <- Resultado{URL: u, Erro: err}
+				resultadosCh <- Resultado{URL: u, Erro: fmt.Errorf("após %s: %w", time.Since(inicio).Round(time.Millisecond), err)}
 				return
 			}
 			defer resp.Body.Close()
@@ -52,17 +54,17 @@ func IniciarMonitoramento() {
 	}
 
 	go func() {
-		wg.Wait()          
-		close(resultadosCh) 
+		wg.Wait()
+		close(resultadosCh)
 	}()
 
 	for res := range resultadosCh {
 		if res.Erro != nil {
-			fmt.Printf("[FALHA] URL: %s | Erro: %v\n", res.URL, res.Erro)
+			terminal.Erro("%-36s indisponível (%v)", res.URL, res.Erro)
 		} else {
-			fmt.Printf("[ OK ] URL: %s | Status Code: %d\n", res.URL, res.StatusCode)
+			terminal.Sucesso("%-36s HTTP %d", res.URL, res.StatusCode)
 		}
 	}
 
-	fmt.Println("=== Monitoramento Concluído ===")
+	terminal.Sucesso("Monitoramento concluído; o channel de resultados foi fechado")
 }

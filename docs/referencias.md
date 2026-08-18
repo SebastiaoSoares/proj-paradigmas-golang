@@ -9,6 +9,8 @@ As referências estão agrupadas pelo documento em que são utilizadas. Foram pr
 - GO AUTHORS. **Frequently Asked Questions**: Why build concurrency on the ideas of CSP?; Why goroutines instead of threads? Disponível em: <https://go.dev/doc/faq#goroutines>. Acesso em: 17 ago. 2026.
 - GO AUTHORS. **Effective Go: Concurrency**. Disponível em: <https://go.dev/doc/effective_go#concurrency>. Acesso em: 17 ago. 2026.
 - GO AUTHORS. **Data Race Detector**. Disponível em: <https://go.dev/doc/articles/race_detector>. Acesso em: 17 ago. 2026.
+- GO AUTHORS. **Go runtime: HACKING.md**. Disponível em: <https://go.dev/src/runtime/HACKING.md>. Acesso em: 17 ago. 2026.
+- GERRAND, Andrew. **Share Memory By Communicating**. The Go Blog, 13 jul. 2010. Disponível em: <https://go.dev/blog/codelab-share>. Acesso em: 17 ago. 2026.
 - HOARE, C. A. R. Communicating Sequential Processes. **Communications of the ACM**, v. 21, n. 8, p. 666–677, 1978. DOI: <https://doi.org/10.1145/359576.359585>.
 - THE OPEN GROUP; IEEE. **The Open Group Base Specifications Issue 7, 2018 edition (POSIX.1-2017)**: Threads. Disponível em: <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/pthread.h.html>. Acesso em: 17 ago. 2026.
 - THE OPEN GROUP; IEEE. **pthread_create — create a new thread**. Disponível em: <https://pubs.opengroup.org/onlinepubs/9699919799/functions/pthread_create.html>. Acesso em: 17 ago. 2026.
