@@ -8,6 +8,7 @@ import (
 )
 
 func TestExecutarPythonImprimeTextoEmMaiusculas(t *testing.T) {
+	t.Setenv("NO_COLOR", "1")
 	diretorioOriginal, err := os.Getwd()
 	if err != nil {
 		t.Fatalf("não foi possível consultar o diretório atual: %v", err)
@@ -50,7 +51,7 @@ func TestExecutarPythonImprimeTextoEmMaiusculas(t *testing.T) {
 	}
 
 	obtido := strings.TrimSpace(string(saida))
-	esperado := "OLÁ, GO E PYTHON!"
+	esperado := "✓ Python respondeu: OLÁ, GO E PYTHON!"
 	if obtido != esperado {
 		t.Fatalf("saída inesperada: obtido %q, esperado %q", obtido, esperado)
 	}

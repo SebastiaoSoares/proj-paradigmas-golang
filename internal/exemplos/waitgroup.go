@@ -3,7 +3,7 @@
 package exemplos
 
 import (
-	"fmt"
+	"paradigmas_golang/internal/terminal"
 	"sync"
 	"time"
 )
@@ -18,7 +18,7 @@ func DemonstrarWaitGroups() {
 	for i, prato := range pratos {
 		// Cada goroutine adicionada precisa ser registrada antes de começar.
 		wg.Add(1)
-		fmt.Printf("Atribuindo cozinheiro %d ao pedido de %s\n", i+1, prato)
+		terminal.Passo("Despachando cozinheiro %d para preparar %s", i+1, prato)
 		// A pausa torna cada atribuição visível no terminal.
 		time.Sleep(400 * time.Millisecond)
 
@@ -28,16 +28,16 @@ func DemonstrarWaitGroups() {
 			// Done sinaliza ao WaitGroup que este cozinheiro terminou.
 			defer wg.Done()
 
-			fmt.Printf("Cozinheiro %d começou a preparar %s\n", cozinheiro, prato)
+			terminal.Info("Cozinheiro %d iniciou: %s", cozinheiro, prato)
 			// A pausa torna visível a execução concorrente dos três cozinheiros.
 			time.Sleep(500 * time.Millisecond)
-			fmt.Printf("Cozinheiro %d finalizou %s\n", cozinheiro, prato)
+			terminal.Sucesso("Cozinheiro %d finalizou: %s", cozinheiro, prato)
 		}(i+1, prato)
 	}
 
-	fmt.Println("Os três cozinheiros estão trabalhando. WaitGroup aguardando...")
+	terminal.Alerta("WaitGroup bloqueou o fluxo principal até os 3 workers terminarem")
 
 	// Wait bloqueia a função até as três goroutines executarem Done.
 	wg.Wait()
-	fmt.Println("Todos os cozinheiros finalizaram. WaitGroup liberado.")
+	terminal.Sucesso("WaitGroup liberado: todos os cozinheiros terminaram")
 }

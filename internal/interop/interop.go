@@ -3,11 +3,27 @@ package interop
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
+	"paradigmas_golang/internal/terminal"
 	"path/filepath"
 	"runtime"
 	"strings"
 )
+
+func localizarPython() (string, error) {
+	candidatos := []string{"python3", "python"}
+	if runtime.GOOS == "windows" {
+		candidatos = []string{"python", "python3"}
+	}
+
+	for _, candidato := range candidatos {
+		if caminho, err := exec.LookPath(candidato); err == nil {
+			return caminho, nil
+		}
+	}
+	return "", fmt.Errorf("Python 3 não encontrado; instale-o como 'python3' ou 'python'")
+}
 
 // ExecutarPython envia texto para um script Python e imprime a saída recebida.
 func ExecutarPython(texto string) error {
@@ -17,7 +33,13 @@ func ExecutarPython(texto string) error {
 	}
 
 	caminhoScript := filepath.Join(filepath.Dir(arquivoAtual), "script.py")
-	cmd := exec.Command("python3", caminhoScript, texto)
+	python, err := localizarPython()
+	if err != nil {
+		return err
+	}
+	cmd := exec.Command(python, caminhoScript, texto)
+	// Força uma codificação previsível também quando stdout é redirecionado no Windows.
+	cmd.Env = append(os.Environ(), "PYTHONIOENCODING=utf-8")
 
 	saida, err := cmd.Output()
 	if err != nil {
@@ -30,6 +52,6 @@ func ExecutarPython(texto string) error {
 		return fmt.Errorf("não foi possível executar o script Python: %w", err)
 	}
 
-	fmt.Println(strings.TrimSuffix(string(saida), "\n"))
+	terminal.Sucesso("Python respondeu: %s", strings.TrimSpace(string(saida)))
 	return nil
 }

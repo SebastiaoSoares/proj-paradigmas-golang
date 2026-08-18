@@ -3,7 +3,7 @@
 ## Requisitos
 
 - Go 1.26.1 ou versão compatível com o `go.mod`.
-- Python 3 disponível pelo comando `python3`.
+- Python 3 disponível pelo comando `python3` ou `python`.
 
 ## Execução
 
@@ -17,6 +17,9 @@ O menu oferece os exemplos de WaitGroup, Channels, monitoramento de uptime e
 interoperabilidade entre Go e Python. Na opção `5`, digite um texto; o programa
 Go o enviará como argumento para `internal/interop/script.py` e imprimirá a
 versão convertida para maiúsculas pelo Python.
+
+O menu usa cores ANSI. Para obter saída sem cores (por exemplo, em logs ou
+automação), defina a variável de ambiente `NO_COLOR` antes da execução.
 
 A opção `4` executa todos os exemplos e também solicita o texto usado na
 demonstração de interoperabilidade.
