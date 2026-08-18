@@ -12,7 +12,7 @@
 
 Este repositório contém o Trabalho Prático desenvolvido pela **Equipe 2** para a disciplina de Paradigmas de Programação. O objetivo central deste projeto é investigar a linguagem **Go (Golang)**, com foco especial em seu modelo de concorrência que utiliza *Goroutines* e *Channels*.
 
-Buscamos demonstrar como Go simplifica o desenvolvimento de aplicações concorrentes e distribuídas de forma segura e eficiente, comparando sua abordagem com o uso tradicional de *threads* em linguagens como Python, Java e C++.
+Buscamos demonstrar como Go apoia o desenvolvimento de aplicações concorrentes e distribuídas, comparando sua abordagem com **threads POSIX em C** e **threads em Python**. C aproxima o trabalho dos conceitos de sincronização estudados em Sistemas Operacionais; Python acrescenta o contraste com uma API de alto nível e com o GIL do CPython.
 
 ### **Equipe 2 (Integrantes)**
 
@@ -30,7 +30,7 @@ Atendendo às especificações da disciplina, este projeto cobre os seguintes t�
 
 * **Contextualização Histórica:** Problemas que motivaram a criação do Go no Google.  
 * **Fundamentos Teóricos:** Mecanismos de funcionamento de *Goroutines* e *Channels*.  
-* **Comparativo Técnico:** Vantagens e limitações do modelo de concorrência do Go frente às *threads* tradicionais.  
+* **Comparativo Técnico:** Vantagens, limitações e cenários do modelo de concorrência do Go frente às [threads em C e Python](./docs/3_comparativo_threads.md).
 * **Análise Crítica:** Avaliação da maturidade, ecossistema, comunidade e limitações da linguagem.  
 * **Prática e Estudo de Caso:** Códigos de demonstração e uma aplicação real (ex: Servidor Web / Processamento Paralelo) desenvolvida em Go.
 
@@ -45,13 +45,19 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   ├── 3_comparativo_threads.md        
 │   ├── 4_analise_critica.md            
 │   └── referencias.md                  
-├── internal/                               # Código-fonte organizado em pacotes Go
-│   ├── exemplos/
+├── internal/                               # Pacotes usados pelo CLI
+│   ├── exemplos/                           # WaitGroup e channels
 │   ├── interop/                            # Integração local entre Go e Python
-│   └── estudocaso/
+│   ├── estudocaso/                         # Monitoramento concorrente de URLs
+│   └── terminal/                           # Identidade visual do terminal
+├── examples/comparativo/                   # Mesmo worker pool em três linguagens
+│   ├── go/                                 # Goroutines e channels
+│   ├── c/                                  # Mutex e variáveis de condição POSIX
+│   ├── python/                             # Thread e Queue da biblioteca padrão
+│   └── verificar.sh                        # Testa e compara as três implementações
 ├── go.mod                                  # Arquivo de módulo gerado pelo Go
-├── main.go                                 # Ponto de entrada com o menu interativo
-├── INSTRUCTIONS.md                         # Como rodar o CLI e usar o menu
+├── main.go                                 # Ponto de entrada do CLI unificado
+├── INSTRUCTIONS.md                         # Instalação, execução e verificação
 └── README.md                               # Visão geral do projeto
 ```
 
@@ -62,5 +68,5 @@ Para garantir a reprodutibilidade dos nossos experimentos, preparamos um guia pa
 Por favor, consulte o arquivo [**INSTRUCTIONS.md**](./INSTRUCTIONS.md) na raiz deste repositório. Lá você encontrará:
 
 * Requisitos de sistema (versão do Go, dependências, etc).  
-* Instruções de compilação e execução do menu CLI.  
-* Passo a passo para rodar o Estudo de Caso e exemplos básicos.
+* Instruções de compilação e execução dos programas.
+* Passo a passo para rodar o estudo de caso e o comparativo Go/C/Python.
