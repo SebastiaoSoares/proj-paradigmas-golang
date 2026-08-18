@@ -36,7 +36,7 @@ app_paradigmas.exe
 
 ## Como navegar no menu CLI
 
-Após executar `go run .` ou iniciar o binário compilado, o menu apresenta as opções `1`, `2`, `3` e `0`. Digite somente o número desejado e pressione **Enter**.
+Após executar `go run .` ou iniciar o binário compilado, o menu apresenta as opções `1`, `2`, `3`, `4` e `0`. Digite somente o número desejado e pressione **Enter**.
 
 ### Opção 1 — Exemplos básicos
 
@@ -63,6 +63,15 @@ Essa opção requer que `python3` ou `python` esteja disponível no `PATH`.
 
 Essa opção requer acesso à internet. Códigos HTTP e mensagens podem variar conforme a rede e a disponibilidade dos serviços. A URL `https://invalid-url-for-testing.local` é inválida propositalmente e demonstra o tratamento de falhas.
 
+### Opção 4 — Comparativo visual
+
+1. Digite `4` e pressione **Enter**.
+2. Acompanhe, em Go, C e Python, qual worker recebe e conclui cada faixa.
+3. Pressione **Enter** entre as implementações para controlar o ritmo da apresentação.
+4. Observe ao final as primitivas usadas por cada linguagem e o total comum.
+
+A animação executa o trabalho real e adiciona uma pausa didática de 250 ms por faixa. Essa pausa não representa desempenho; use a seção de verificação, e não a animação, para validar os resultados. A opção requer Go, Python, um compilador C e um ambiente POSIX.
+
 ### Opção 0 — Encerrar
 
 1. Digite `0` e pressione **Enter**.
@@ -73,6 +82,20 @@ Se outro valor for informado, o programa mostra uma mensagem de opção inválid
 **Nota:** O menu limpa a tela entre interações e usa cores ANSI. Para produzir logs sem cores, defina a variável de ambiente `NO_COLOR` antes da execução.
 
 ## Comparativo Go, C/pthreads e Python
+
+### Demonstração visual guiada
+
+```bash
+./examples/comparativo/demonstrar.sh
+```
+
+Para executar sem pausas de confirmação, por exemplo durante uma gravação automatizada:
+
+```bash
+./examples/comparativo/demonstrar.sh --auto
+```
+
+Cada implementação também aceita `--visual` isoladamente. Sem essa opção, a saída determinística usada pelos testes permanece inalterada.
 
 ### Versão Go
 
