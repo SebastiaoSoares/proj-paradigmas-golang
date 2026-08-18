@@ -17,7 +17,7 @@ Buscamos demonstrar como Go apoia o desenvolvimento de aplicações concorrentes
 ### **Equipe 2 (Integrantes)**
 
 1. Elder Rayan Oliveira Silva ([@eldrayan](https://github.com/eldrayan))
-2. Espedio Ramom Mascena Ricarto ([@RamomRicarto](https://github.com/RamomRicarto))
+2. Espedito Ramom Mascena Ricarto ([@RamomRicarto](https://github.com/RamomRicarto))
 3. Manoel Junio Duarte da Silva ([@Junio404](https://github.com/Junio404))
 4. Pedro Yan Alcantara Palácio ([@pedropalacioo](https://github.com/pedropalacioo))
 5. Sabrina Alencar Soares ([@sabrinaalencaar](https://github.com/sabrinaalencaar))
@@ -44,7 +44,8 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   ├── 2_teoria_goroutines_channels.md 
 │   ├── 3_comparativo_threads.md        
 │   ├── 4_analise_critica.md            
-│   ├── 5_roteiro_apresentacao.md       # Material visual e divisão das falas
+│   ├── projeto/                            # Materiais de organização do trabalho
+│   │   └── apresentacao.md                 # Slides, roteiro e divisão das falas
 │   └── referencias.md                  
 ├── internal/                               # Pacotes usados pelo CLI
 │   ├── comparativo/                        # Worker pool comparativo integrado ao menu

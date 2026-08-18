@@ -7,7 +7,6 @@ Esta documentação apresenta a linguagem Go com ênfase em concorrência basead
 3. [Comparativo técnico: Go, threads POSIX em C e threads em Python](3_comparativo_threads.md)
 4. [Análise crítica](4_analise_critica.md)
 5. [Referências bibliográficas](referencias.md)
-6. [Roteiro da apresentação (12–15 minutos)](5_roteiro_apresentacao.md)
 
 ## Exemplos práticos
 
