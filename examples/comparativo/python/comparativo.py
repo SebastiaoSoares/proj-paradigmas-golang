@@ -1,6 +1,8 @@
 from dataclasses import dataclass
-from threading import Thread
-from typing import Optional
+import sys
+from threading import Lock, Thread
+from time import sleep
+from typing import Callable, Optional
 from queue import Queue
 
 
@@ -20,6 +22,9 @@ class Result:
     count: int
 
 
+Observer = Callable[[int, str, Job, Optional[int]], None]
+
+
 JOBS = (
     Job(id=0, start=2, end=25_000),
     Job(id=1, start=25_001, end=50_000),
@@ -33,9 +38,55 @@ JOBS = (
 
 
 def main() -> None:
-    results = execute(WORKER_COUNT, JOBS)
+    visual = sys.argv[1:] == ["--visual"]
+    if len(sys.argv) > 1 and not visual:
+        print(f"Uso: {sys.argv[0]} [--visual]", file=sys.stderr)
+        raise SystemExit(2)
+
+    observer: Optional[Observer] = None
+    pause = 0.0
+    if visual:
+        print("\nPYTHON · Thread + Queue")
+        print("fila de jobs ──▶ 4 threads ──▶ fila de resultados")
+        print("A pausa é didática; a contagem e a distribuição são reais.\n")
+        output_lock = Lock()
+
+        def show_event(
+            worker_id: int,
+            phase: str,
+            job: Job,
+            count: Optional[int],
+        ) -> None:
+            with output_lock:
+                show_event_line(worker_id, phase, job, count)
+
+        def show_event_line(
+            worker_id: int,
+            phase: str,
+            job: Job,
+            count: Optional[int],
+        ) -> None:
+            if phase == "start":
+                print(
+                    f"  T{worker_id}  ▶ recebeu faixa {job.id + 1} "
+                    f"[{job.start}, {job.end}]",
+                    flush=True,
+                )
+                return
+            print(
+                f"  T{worker_id}  ✓ concluiu faixa {job.id + 1}: "
+                f"{count} primos",
+                flush=True,
+            )
+
+        observer = show_event
+        pause = 0.25
+
+    results = execute(WORKER_COUNT, JOBS, observer=observer, pause=pause)
     total = 0
 
+    if visual:
+        print()
     print(
         f"Comparativo: contagem de primos em {len(JOBS)} "
         f"faixas com {WORKER_COUNT} workers"
@@ -49,7 +100,12 @@ def main() -> None:
     print(f"Total: {total} primos entre 2 e 200000")
 
 
-def execute(workers: int, input_jobs: tuple[Job, ...]) -> list[Result]:
+def execute(
+    workers: int,
+    input_jobs: tuple[Job, ...],
+    observer: Optional[Observer] = None,
+    pause: float = 0.0,
+) -> list[Result]:
     if workers <= 0:
         raise ValueError("workers deve ser maior que zero")
 
@@ -58,7 +114,7 @@ def execute(workers: int, input_jobs: tuple[Job, ...]) -> list[Result]:
     threads = [
         Thread(
             target=worker,
-            args=(jobs_queue, results_queue),
+            args=(index + 1, jobs_queue, results_queue, observer, pause),
             name=f"worker-{index + 1}",
         )
         for index in range(workers)
@@ -82,20 +138,29 @@ def execute(workers: int, input_jobs: tuple[Job, ...]) -> list[Result]:
 
 
 def worker(
+    worker_id: int,
     jobs_queue: Queue[Optional[Job]],
     results_queue: Queue[Result],
+    observer: Optional[Observer],
+    pause: float,
 ) -> None:
     while True:
         current_job = jobs_queue.get()
         try:
             if current_job is None:
                 return
-            results_queue.put(
-                Result(
-                    job=current_job,
-                    count=count_primes(current_job.start, current_job.end),
-                )
+            if observer is not None:
+                observer(worker_id, "start", current_job, None)
+            if pause > 0:
+                sleep(pause)
+
+            result = Result(
+                job=current_job,
+                count=count_primes(current_job.start, current_job.end),
             )
+            if observer is not None:
+                observer(worker_id, "done", current_job, result.count)
+            results_queue.put(result)
         finally:
             jobs_queue.task_done()
 

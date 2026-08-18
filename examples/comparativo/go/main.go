@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sync"
+	"time"
 )
 
 const workerCount = 4
@@ -18,6 +20,15 @@ type result struct {
 	count int
 }
 
+type workerEvent struct {
+	workerID int
+	phase    string
+	job      job
+	count    int
+}
+
+type observer func(workerEvent)
+
 var jobs = []job{
 	{id: 0, start: 2, end: 25_000},
 	{id: 1, start: 25_001, end: 50_000},
@@ -30,9 +41,41 @@ var jobs = []job{
 }
 
 func main() {
-	results := execute(workerCount, jobs)
+	visual := len(os.Args) == 2 && os.Args[1] == "--visual"
+	if len(os.Args) > 1 && !visual {
+		fmt.Fprintf(os.Stderr, "Uso: %s [--visual]\n", os.Args[0])
+		os.Exit(2)
+	}
+
+	var observe observer
+	var pause time.Duration
+	if visual {
+		fmt.Println("\nGO · goroutines + channels")
+		fmt.Println("fila de jobs ──▶ 4 goroutines ──▶ channel de resultados")
+		fmt.Println("A pausa é didática; a contagem e a distribuição são reais.")
+		fmt.Println()
+
+		var outputMutex sync.Mutex
+		observe = func(event workerEvent) {
+			outputMutex.Lock()
+			defer outputMutex.Unlock()
+			if event.phase == "start" {
+				fmt.Printf("  G%d  ▶ recebeu faixa %d [%d, %d]\n",
+					event.workerID, event.job.id+1, event.job.start, event.job.end)
+				return
+			}
+			fmt.Printf("  G%d  ✓ concluiu faixa %d: %d primos\n",
+				event.workerID, event.job.id+1, event.count)
+		}
+		pause = 250 * time.Millisecond
+	}
+
+	results := executeObserved(workerCount, jobs, observe, pause)
 	total := 0
 
+	if visual {
+		fmt.Println()
+	}
 	fmt.Printf("Comparativo: contagem de primos em %d faixas com %d workers\n", len(jobs), workerCount)
 	for _, result := range results {
 		fmt.Printf("Faixa %d [%d, %d]: %d primos\n",
@@ -47,13 +90,17 @@ func main() {
 }
 
 func execute(workers int, input []job) []result {
+	return executeObserved(workers, input, nil, 0)
+}
+
+func executeObserved(workers int, input []job, observe observer, pause time.Duration) []result {
 	jobsCh := make(chan job, workers)
 	resultsCh := make(chan result, len(input))
 
 	var wg sync.WaitGroup
-	for range workers {
+	for workerIndex := range workers {
 		wg.Add(1)
-		go worker(jobsCh, resultsCh, &wg)
+		go worker(workerIndex+1, jobsCh, resultsCh, &wg, observe, pause)
 	}
 
 	go func() {
@@ -76,14 +123,37 @@ func execute(workers int, input []job) []result {
 	return ordered
 }
 
-func worker(jobsCh <-chan job, resultsCh chan<- result, wg *sync.WaitGroup) {
+func worker(
+	workerID int,
+	jobsCh <-chan job,
+	resultsCh chan<- result,
+	wg *sync.WaitGroup,
+	observe observer,
+	pause time.Duration,
+) {
 	defer wg.Done()
 
 	for currentJob := range jobsCh {
-		resultsCh <- result{
+		if observe != nil {
+			observe(workerEvent{workerID: workerID, phase: "start", job: currentJob})
+		}
+		if pause > 0 {
+			time.Sleep(pause)
+		}
+
+		currentResult := result{
 			job:   currentJob,
 			count: countPrimes(currentJob.start, currentJob.end),
 		}
+		if observe != nil {
+			observe(workerEvent{
+				workerID: workerID,
+				phase:    "done",
+				job:      currentJob,
+				count:    currentResult.count,
+			})
+		}
+		resultsCh <- currentResult
 	}
 }
 

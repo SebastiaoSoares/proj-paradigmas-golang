@@ -130,6 +130,14 @@ Ou execute toda a verificação:
 ./examples/comparativo/verificar.sh
 ```
 
+Para uma apresentação guiada, execute:
+
+```bash
+./examples/comparativo/demonstrar.sh
+```
+
+O modo visual mostra, em tempo real, qual worker recebe e conclui cada faixa nas três implementações. Uma pausa didática torna a concorrência observável no terminal; ela não representa o desempenho das linguagens e não deve ser interpretada como benchmark. A ordem de distribuição pode variar entre execuções, enquanto o total permanece determinístico.
+
 O script executa os testes Go com o detector de corridas habilitado, os testes Python com `unittest`, compila C tratando avisos como erros e compara as três saídas. O resultado esperado é um total de **17984 números primos**. A ordem em que os workers finalizam pode variar, mas todas as implementações ordenam os resultados pelo identificador da faixa para manter a saída estável.
 
 ## 6. Vantagens e limitações

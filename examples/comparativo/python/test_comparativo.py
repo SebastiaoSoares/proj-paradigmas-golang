@@ -1,6 +1,7 @@
 import sys
 import unittest
 from pathlib import Path
+from typing import Optional
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -39,6 +40,27 @@ class ExecuteTest(unittest.TestCase):
     def test_rejects_non_positive_worker_count(self) -> None:
         with self.assertRaisesRegex(ValueError, "maior que zero"):
             execute(0, ())
+
+    def test_reports_worker_lifecycle_to_observer(self) -> None:
+        jobs = (
+            Job(id=0, start=2, end=10),
+            Job(id=1, start=11, end=20),
+        )
+        events: list[tuple[int, str, int, Optional[int]]] = []
+
+        execute(
+            2,
+            jobs,
+            observer=lambda worker_id, phase, job, count: events.append(
+                (worker_id, phase, job.id, count)
+            ),
+        )
+
+        self.assertEqual(
+            sorted((phase, job_id) for _, phase, job_id, _ in events),
+            [("done", 0), ("done", 1), ("start", 0), ("start", 1)],
+        )
+        self.assertTrue(all(worker_id > 0 for worker_id, _, _, _ in events))
 
 
 if __name__ == "__main__":

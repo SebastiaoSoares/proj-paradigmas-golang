@@ -17,7 +17,7 @@ Buscamos demonstrar como Go apoia o desenvolvimento de aplicações concorrentes
 ### **Equipe 2 (Integrantes)**
 
 1. Elder Rayan Oliveira Silva ([@eldrayan](https://github.com/eldrayan))
-2. Espedio Ramom Mascena Ricarto ([@RamomRicarto](https://github.com/RamomRicarto))
+2. Espedito Ramom Mascena Ricarto ([@RamomRicarto](https://github.com/RamomRicarto))
 3. Manoel Junio Duarte da Silva ([@Junio404](https://github.com/Junio404))
 4. Pedro Yan Alcantara Palácio ([@pedropalacioo](https://github.com/pedropalacioo))
 5. Sabrina Alencar Soares ([@sabrinaalencaar](https://github.com/sabrinaalencaar))
@@ -32,7 +32,7 @@ Atendendo às especificações da disciplina, este projeto cobre os seguintes t�
 * **Fundamentos Teóricos:** Mecanismos de funcionamento de *Goroutines* e *Channels*.  
 * **Comparativo Técnico:** Vantagens, limitações e cenários do modelo de concorrência do Go frente às [threads em C e Python](./docs/3_comparativo_threads.md).
 * **Análise Crítica:** Avaliação da maturidade, ecossistema, comunidade e limitações da linguagem.  
-* **Prática e Estudo de Caso:** Códigos de demonstração e uma aplicação real (ex: Servidor Web / Processamento Paralelo) desenvolvida em Go.
+* **Prática e Estudo de Caso:** Códigos de demonstração, um comparativo visual ao vivo e uma aplicação real (ex: Servidor Web / Processamento Paralelo) desenvolvida em Go.
 
 ## **Estrutura do Repositório**
 
@@ -44,8 +44,11 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   ├── 2_teoria_goroutines_channels.md 
 │   ├── 3_comparativo_threads.md        
 │   ├── 4_analise_critica.md            
+│   ├── projeto/                            # Materiais de organização do trabalho
+│   │   └── apresentacao.md                 # Slides, roteiro e divisão das falas
 │   └── referencias.md                  
 ├── internal/                               # Pacotes usados pelo CLI
+│   ├── comparativo/                        # Worker pool comparativo integrado ao menu
 │   ├── exemplos/                           # WaitGroup e channels
 │   ├── interop/                            # Integração local entre Go e Python
 │   ├── estudocaso/                         # Monitoramento concorrente de URLs
@@ -54,10 +57,11 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   ├── go/                                 # Goroutines e channels
 │   ├── c/                                  # Mutex e variáveis de condição POSIX
 │   ├── python/                             # Thread e Queue da biblioteca padrão
+│   ├── demonstrar.sh                       # Visualiza fila e workers nas três linguagens
 │   └── verificar.sh                        # Testa e compara as três implementações
 ├── go.mod                                  # Arquivo de módulo gerado pelo Go
 ├── main.go                                 # Ponto de entrada do CLI unificado
-├── instrucoes.md                           # Instalação, execução e verificação
+├── INSTRUCTIONS.md                         # Instalação, execução e verificação
 └── README.md                               # Visão geral do projeto
 ```
 
@@ -65,7 +69,7 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 
 Para garantir a reprodutibilidade dos nossos experimentos, preparamos um guia passo a passo.
 
-Por favor, consulte o arquivo [**instrucoes.md**](./instrucoes.md) na raiz deste repositório. Lá você encontrará:
+Por favor, consulte o arquivo [**INSTRUCTIONS.md**](./INSTRUCTIONS.md) na raiz deste repositório. Lá você encontrará:
 
 * Requisitos de sistema (versão do Go, dependências, etc).  
 * Instruções de compilação e execução dos programas.
