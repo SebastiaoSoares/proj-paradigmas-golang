@@ -1,0 +1,352 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{GoBlue}{HTML}{00ADD8}
+\definecolor{GoDark}{HTML}{073B4C}
+\definecolor{GoNavy}{HTML}{14213D}
+\definecolor{GoGreen}{HTML}{2A9D8F}
+\definecolor{GoYellow}{HTML}{F4A261}
+\definecolor{Terminal}{HTML}{101820}
+\definecolor{TerminalText}{HTML}{E8F1F2}
+\definecolor{SoftGray}{HTML}{F2F5F7}
+
+\usetheme{Madrid}
+\useinnertheme{rounded}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{GoBlue}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{GoGreen}$\bullet$}
+\setbeamercolor{structure}{fg=GoDark}
+\setbeamercolor{palette primary}{bg=GoDark,fg=white}
+\setbeamercolor{palette secondary}{bg=GoBlue,fg=GoNavy}
+\setbeamercolor{palette tertiary}{bg=GoNavy,fg=white}
+\setbeamercolor{frametitle}{bg=GoDark,fg=white}
+\setbeamercolor{block title}{bg=GoBlue!25,fg=GoNavy}
+\setbeamercolor{block body}{bg=SoftGray,fg=black}
+\setbeamercolor{alerted text}{fg=GoYellow!80!black}
+
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.76\paperwidth,ht=2.6ex,dp=1.1ex,leftskip=1em]{author in head/foot}%
+      \insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.24\paperwidth,ht=2.6ex,dp=1.1ex,center]{date in head/foot}%
+      \insertframenumber{} / \inserttotalframenumber
+    \end{beamercolorbox}%
+  }%
+}
+
+\lstdefinelanguage{Go}{
+  morekeywords={break,case,chan,const,continue,default,defer,else,fallthrough,for,func,go,goto,if,import,interface,map,package,range,return,select,struct,switch,type,var},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]"
+}
+
+\lstdefinestyle{code}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{SoftGray},
+  keywordstyle=\color{GoDark}\bfseries,
+  commentstyle=\color{GoGreen!70!black},
+  stringstyle=\color{GoYellow!80!black},
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=single,
+  rulecolor=\color{GoBlue!60},
+  frameround=tttt,
+  xleftmargin=0.5em,
+  xrightmargin=0.5em
+}
+
+\lstdefinestyle{terminal}{
+  basicstyle=\ttfamily\scriptsize\color{TerminalText},
+  backgroundcolor=\color{Terminal},
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=single,
+  rulecolor=\color{GoBlue},
+  frameround=tttt,
+  xleftmargin=0.5em,
+  xrightmargin=0.5em
+}
+
+\title[Go: concorrência na prática]{Go: Concorrência Baseada em Goroutines e Channels}
+\subtitle{Pesquisa aplicada, exemplos práticos e comparação com C e Python}
+\institute[UFCA]{%
+  Universidade Federal do Cariri -- UFCA\\
+  Centro de Ciência e Tecnologia -- CCT\\
+  Bacharelado em Engenharia de Software\\[0.4em]
+  Paradigmas de Programação\\
+  Prof. Rafael Will Macedo de Araújo
+}
+\date{}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+  \begin{center}
+    \color{GoDark}\small
+    Elder Rayan \textbullet{} Espedio Ramom \textbullet{} Manoel Junio \textbullet{}
+    Pedro Yan \textbullet{} Sabrina Alencar \textbullet{} Samuel Wagner \textbullet{} Sebastião Sousa
+  \end{center}
+\end{frame}
+
+\begin{frame}{Por que Go surgiu?}
+  \begin{columns}[T]
+    \column{0.57\textwidth}
+      \begin{block}{Problema de engenharia}
+        Grandes sistemas exigiam builds rápidos, código legível e coordenação eficiente de muitas tarefas de rede em arquiteturas multicore.
+      \end{block}
+      \begin{itemize}
+        \item Projeto iniciado no Google em 2007;
+        \item Robert Griesemer, Rob Pike e Ken Thompson;
+        \item Go 1.0 lançado em 2012;
+        \item simplicidade, tipagem estática e compilação nativa.
+      \end{itemize}
+    \column{0.39\textwidth}
+      \begin{center}
+        \setlength{\fboxsep}{10pt}
+        \colorbox{GoBlue!15}{\parbox{0.82\linewidth}{\centering
+          \textbf{Pergunta central}\\[0.5em]
+          Como simplificar software concorrente sem esconder seus riscos?
+        }}
+      \end{center}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Goroutines: concorrência leve}
+  \begin{columns}[T]
+    \column{0.44\textwidth}
+\begin{lstlisting}[style=code,language=Go]
+var wg sync.WaitGroup
+wg.Add(1)
+
+go func() {
+    defer wg.Done()
+    executarTarefa()
+}()
+
+wg.Wait()
+\end{lstlisting}
+    \column{0.52\textwidth}
+      \begin{itemize}
+        \item Uma goroutine é uma função executada concorrentemente.
+        \item O runtime multiplexa goroutines sobre threads do sistema operacional.
+        \item \texttt{WaitGroup} aguarda a conclusão de um conjunto de tarefas.
+      \end{itemize}
+      \begin{alertblock}{Concorrência não é paralelismo}
+        Concorrência estrutura tarefas independentes; paralelismo exige execução simultânea em mais de um núcleo.
+      \end{alertblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Channels e interoperabilidade}
+  \begin{columns}[T]
+    \column{0.47\textwidth}
+\begin{lstlisting}[style=code,language=Go]
+jobs := make(chan Job)
+
+go func() {
+    jobs <- tarefa
+    close(jobs)
+}()
+
+for job := range jobs {
+    processar(job)
+}
+\end{lstlisting}
+    \column{0.49\textwidth}
+      \begin{block}{Comunicação explícita}
+        \centering Produtor $\longrightarrow$ channel tipado $\longrightarrow$ consumidor
+      \end{block}
+      \begin{itemize}
+        \item envio, recebimento e sincronização;
+        \item fechamento indica ausência de novos valores;
+        \item opção 2: Go inicia Python e captura sua saída;
+        \item uso incorreto ainda pode causar deadlocks e leaks.
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{O mesmo worker pool em três linguagens}
+  \small
+  \begin{tabular}{@{}p{2.3cm}p{2.7cm}p{3.0cm}p{3.0cm}@{}}
+    \toprule
+    \textbf{Aspecto} & \textbf{Go} & \textbf{C / pthreads} & \textbf{Python} \\
+    \midrule
+    Unidade & goroutine & thread POSIX & \texttt{Thread} \\
+    Distribuição & channel & fila circular & \texttt{Queue} \\
+    Sincronização & channel + \texttt{WaitGroup} & mutex + condições & \texttt{Queue} + \texttt{join} \\
+    Gerência & runtime & aplicação + SO & interpretador + SO \\
+    CPU paralelo & sim & sim & limitado pelo GIL padrão \\
+    Manutenção & coordenação concisa & mais invariantes manuais & API simples \\
+    \bottomrule
+  \end{tabular}
+  \begin{alertblock}{Leitura correta}
+    A visualização demonstra coordenação, não desempenho. Benchmark exige ambiente controlado e medições próprias.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Exemplos práticos e pacotes}
+  \begin{columns}[T]
+    \column{0.47\textwidth}
+\begin{lstlisting}[style=terminal]
+internal/
+|-- exemplos/
+|   |-- waitgroup.go
+|   `-- channels.go
+|-- interop/
+|-- estudocaso/
+|-- comparativo/
+`-- terminal/
+\end{lstlisting}
+    \column{0.49\textwidth}
+      \begin{itemize}
+        \item exemplos pequenos isolam cada conceito;
+        \item pacotes internos são integrados pelo menu;
+        \item produtor--consumidor torna a comunicação observável;
+        \item separação favorece leitura, teste e manutenção.
+      \end{itemize}
+      \begin{block}{Opção 1}
+        Demonstra \texttt{WaitGroup} e channel com resultados visíveis no terminal.
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Estudo de caso: monitor de uptime}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{block}{Fluxo real}
+        \centering URLs $\rightarrow$ goroutines HTTP $\rightarrow$ channel $\rightarrow$ terminal
+      \end{block}
+      \begin{itemize}
+        \item uma requisição concorrente por URL;
+        \item timeout de 5 segundos;
+        \item erros não interrompem as demais tarefas;
+        \item channel fechado após todos os workers.
+      \end{itemize}
+    \column{0.48\textwidth}
+\begin{lstlisting}[style=terminal]
+ESTUDO DE CASO - MONITOR
+
+[OK] go.dev          HTTP 200
+[OK] github.com      HTTP 200
+[OK] cloudflare.com  HTTP 200
+[ERRO] invalid-url   indisponivel
+
+[OK] Monitoramento concluido
+\end{lstlisting}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{CLI: demonstração visual e verificação}
+\begin{lstlisting}[style=terminal]
+GO - CONCORRENCIA NA PRATICA
+
+  1. Exemplos Basicos
+  2. Interoperabilidade Python
+  3. Estudo de Caso (Monitor de Uptime)
+  4. Comparativo Visual e Verificacao (Go x C x Python)
+  0. Sair
+
+> Escolha uma opcao: 4
+
+Go x C:      saidas iguais.
+Go x Python: saidas iguais.
+[OK] Comparativo completo aprovado: 17984 primos.
+\end{lstlisting}
+  \begin{center}
+    \small CLI $\rightarrow$ \texttt{demonstrar.sh --auto} $\rightarrow$ \texttt{verificar.sh} $\rightarrow$ \texttt{diff}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Reprodutibilidade e documentação}
+  \begin{columns}[T]
+    \column{0.49\textwidth}
+\begin{lstlisting}[style=terminal]
+$ go test ./...
+$ go test -race ./...
+$ go vet ./...
+$ ./examples/comparativo/verificar.sh
+
+Go x C:      saidas iguais.
+Go x Python: saidas iguais.
+\end{lstlisting}
+    \column{0.47\textwidth}
+      \begin{itemize}
+        \item documentação técnica navegável em Markdown;
+        \item instruções completas de instalação e execução;
+        \item referências oficiais e acadêmicas;
+        \item testes Go e Python;
+        \item C compilado com avisos tratados como erros.
+      \end{itemize}
+      \begin{alertblock}{Limite do race detector}
+        Ele observa os caminhos executados; não prova ausência de toda data race possível.
+      \end{alertblock}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Avaliação crítica e aplicações}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{block}{Onde Go se destaca}
+        \begin{itemize}
+          \item APIs e microsserviços;
+          \item pipelines e worker pools;
+          \item ferramentas de infraestrutura;
+          \item atividades intensivas em rede.
+        \end{itemize}
+      \end{block}
+    \column{0.48\textwidth}
+      \begin{alertblock}{O que Go não elimina}
+        \begin{itemize}
+          \item data races e deadlocks;
+          \item vazamentos de goroutines;
+          \item cancelamento mal projetado;
+          \item necessidade de medir desempenho.
+        \end{itemize}
+      \end{alertblock}
+  \end{columns}
+  \begin{center}
+    \textbf{A escolha depende do domínio, dos requisitos e da experiência da equipe.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Conclusão}
+  \begin{center}
+    \Large
+    Go não elimina a complexidade da concorrência.\\[0.7em]
+    \color{GoDark}\textbf{Ele oferece primitivas concisas e integradas que tornam padrões concorrentes mais claros e produtivos.}\\[1em]
+    \normalsize\color{black}
+    Três linguagens, oito faixas, quatro workers e o mesmo resultado:\\
+    \alert{17.984 números primos}.\\[1.2em]
+    \textbf{Obrigado! Perguntas?}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Referências essenciais}
+  \footnotesize
+  \begin{thebibliography}{9}
+    \bibitem{gospec} GO AUTHORS. \emph{The Go Programming Language Specification}. \texttt{https://go.dev/ref/spec}.
+    \bibitem{gomemory} GO AUTHORS. \emph{The Go Memory Model}. \texttt{https://go.dev/ref/mem}.
+    \bibitem{effectivego} GO AUTHORS. \emph{Effective Go: Concurrency}. \texttt{https://go.dev/doc/effective\_go\#concurrency}.
+    \bibitem{hoare} HOARE, C. A. R. Communicating Sequential Processes. \emph{Communications of the ACM}, 1978.
+    \bibitem{posix} THE OPEN GROUP; IEEE. \emph{POSIX Threads}.
+    \bibitem{python} PYTHON SOFTWARE FOUNDATION. \emph{threading, queue e Global Interpreter Lock}.
+  \end{thebibliography}
+  \begin{block}{Consulta completa}
+    Referências e links de acesso estão em \texttt{docs/referencias.md}.
+  \end{block}
+\end{frame}
+
+\end{document}
