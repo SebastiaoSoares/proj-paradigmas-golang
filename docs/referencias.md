@@ -2,6 +2,12 @@
 
 As referências estão agrupadas pelo documento em que são utilizadas. Foram priorizadas especificações, documentação oficial e trabalhos acadêmicos.
 
+## Contexto Histórico e Surgimento
+
+- GO AUTHORS. **Frequently Asked Questions**: The Go Programming Language. Disponível em: <https://go.dev/doc/faq>. Acesso em: 18 ago. 2026.
+- DIO. **Por que Go não alcançou o estrelato? A história de uma linguagem quase revolucionária**. Disponível em: <https://www.dio.me/articles/por-que-go-nao-alcancou-o-estrelato-a-historia-de-uma-linguagem-quase-revolucionaria>. Acesso em: 18 ago. 2026.
+- WIKIPÉDIA. **Go (linguagem de programação)**. Disponível em: <https://pt.wikipedia.org/wiki/Go_(linguagem_de_programação)#História>. Acesso em: 18 ago. 2026.
+
 ## Comparativo Go, C e Python
 
 - GO AUTHORS. **The Go Programming Language Specification**: Go statements; channel types; send statements. Disponível em: <https://go.dev/ref/spec>. Acesso em: 17 ago. 2026.
@@ -24,4 +30,4 @@ As referências estão agrupadas pelo documento em que são utilizadas. Foram pr
 
 ---
 
-[Índice da documentação](0_indice.md) | [Comparativo técnico](3_comparativo_threads.md)
+[Anterior: Análise crítica](4_analise_critica.md) | [Início](0_indice.md)

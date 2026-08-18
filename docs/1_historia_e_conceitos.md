@@ -24,6 +24,8 @@ Diante dessas dificuldades, a solução não foi criar mais bibliotecas e ferram
 
 ## Referências e Fontes
 
-* [Frequently Asked Questions (FAQ) - The Go Programming Language](https://go.dev/doc/faq)
-* [Por que Go não alcançou o estrelato? A história de uma linguagem quase revolucionária - DIO](https://www.dio.me/articles/por-que-go-nao-alcancou-o-estrelato-a-historia-de-uma-linguagem-quase-revolucionaria)
-* [Go (linguagem de programação) - Wikipédia](https://pt.wikipedia.org/wiki/Go_(linguagem_de_programação)#História)
+As referências consolidadas deste documento encontram-se em [referencias.md](referencias.md).
+
+---
+
+[Início](0_indice.md) | [Próximo: Goroutines e channels](2_teoria_goroutines_channels.md)
