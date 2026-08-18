@@ -7,21 +7,32 @@ import (
 	"paradigmas_golang/internal/estudocaso"
 	"paradigmas_golang/internal/exemplos"
 	"paradigmas_golang/internal/interop"
-	"strings"
+	"paradigmas_golang/internal/terminal"
 )
 
-func demonstrarInterop(leitor *bufio.Reader) {
-	fmt.Println("\n=== Exemplo: Interoperabilidade Go + Python ===")
-	fmt.Print("Digite um texto para converter em maiúsculas: ")
+func executarExemplosBasicos() {
+	terminal.Titulo("EXEMPLO 1 · WAITGROUP", "Sincronização de goroutines trabalhando em paralelo")
+	exemplos.DemonstrarWaitGroups()
 
-	texto, err := leitor.ReadString('\n')
+	terminal.Titulo("EXEMPLO 2 · CHANNELS", "Comunicação segura no padrão produtor–consumidor")
+	exemplos.DemonstrarChannels()
+}
+
+func executarInteroperabilidade(leitor *bufio.Reader) {
+	terminal.Titulo("INTEROPERABILIDADE · GO + PYTHON", "Go inicia um processo Python e captura sua saída")
+	terminal.Prompt("Digite um texto para converter em maiúsculas: ")
+	texto, err := terminal.LerLinha(leitor)
 	if err != nil {
-		fmt.Printf("Erro ao ler o texto: %v\n", err)
+		terminal.Erro("Não foi possível ler o texto.")
+		return
+	}
+	if texto == "" {
+		terminal.Alerta("Digite ao menos um caractere para realizar a conversão.")
 		return
 	}
 
-	if err := interop.ExecutarPython(strings.TrimRight(texto, "\r\n")); err != nil {
-		fmt.Printf("Erro na interoperabilidade com Python: %v\n", err)
+	if err = interop.ExecutarPython(texto); err != nil {
+		terminal.Erro("Interoperabilidade com Python: %v", err)
 	}
 }
 
@@ -29,48 +40,43 @@ func main() {
 	leitor := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Println("\nPROJETO DE PARADIGMAS DE PROGRAMAÇÃO: GO")
-		fmt.Println("----------------------------------------")
-		fmt.Println("1 - Simular cozinheiros (WaitGroup)")
-		fmt.Println("2 - Simular pedidos (Channels)")
-		fmt.Println("3 - Executar monitoramento de uptime")
-		fmt.Println("4 - Executar todos os exemplos")
-		fmt.Println("5 - Executar interoperabilidade Go + Python")
-		fmt.Println("0 - Sair")
-		fmt.Print("Escolha uma opção: ")
+		terminal.Limpar()
+		terminal.Titulo("GO · CONCORRÊNCIA NA PRÁTICA", "Goroutines, channels e interoperabilidade")
+		terminal.Opcao("1", "Exemplos Basicos")
+		terminal.Opcao("2", "Interoperabilidade Python")
+		terminal.Opcao("3", "Estudo de Caso (Monitor de Uptime)")
+		terminal.Opcao("0", "Sair")
+		fmt.Println()
+		terminal.Prompt("Escolha uma opção: ")
 
-		opcao, err := leitor.ReadString('\n')
+		opcao, err := terminal.LerLinha(leitor)
 		if err != nil {
+			terminal.Erro("Não foi possível ler a opção.")
 			return
 		}
 
-		switch strings.TrimSpace(opcao) {
+		switch opcao {
 		case "1":
-			// Executa o exemplo de três workers sincronizados com WaitGroup.
-			fmt.Println("\n=== Exemplo: WaitGroup ===")
-			exemplos.DemonstrarWaitGroups()
+			terminal.Limpar()
+			executarExemplosBasicos()
+			terminal.Aguardar(leitor)
 		case "2":
-			// Executa o exemplo de Producer-Consumer com um channel de inteiros.
-			fmt.Println("\n=== Exemplo: Channels ===")
-			exemplos.DemonstrarChannels()
+			terminal.Limpar()
+			executarInteroperabilidade(leitor)
+			terminal.Aguardar(leitor)
 		case "3":
-			// Executa o estudo de caso de monitoramento de uptime.
+			terminal.Limpar()
+			terminal.Titulo("ESTUDO DE CASO · MONITOR DE UPTIME", "Requisições HTTP concorrentes com timeout")
 			estudocaso.IniciarMonitoramento()
-		case "4":
-			// Executa os exemplos, o estudo de caso e a interoperabilidade.
-			fmt.Println("\n=== Exemplo: WaitGroup ===")
-			exemplos.DemonstrarWaitGroups()
-			fmt.Println("\n=== Exemplo: Channels ===")
-			exemplos.DemonstrarChannels()
-			estudocaso.IniciarMonitoramento()
-			demonstrarInterop(leitor)
-		case "5":
-			demonstrarInterop(leitor)
+			terminal.Aguardar(leitor)
 		case "0":
-			fmt.Println("Programa encerrado.")
+			terminal.Limpar()
+			terminal.Sucesso("Programa encerrado. Até a próxima!")
 			return
 		default:
-			fmt.Println("Opção inválida. Escolha uma opção do menu.")
+			terminal.Limpar()
+			terminal.Alerta("Opção %q inválida. Escolha 1, 2, 3 ou 0.", opcao)
+			terminal.Aguardar(leitor)
 		}
 	}
 }
