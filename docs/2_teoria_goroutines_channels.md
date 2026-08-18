@@ -223,10 +223,8 @@ término; o exemplo de channels acrescenta comunicação tipada entre tarefas.
 
 ## Referências essenciais
 
-- [The Go Programming Language Specification — Go statements e channels](https://go.dev/ref/spec)
-- [The Go Memory Model — regras de sincronização por channels](https://go.dev/ref/mem)
-- [Go FAQ — goroutines, pilhas e multiplexamento sobre threads](https://go.dev/doc/faq#goroutines)
-- [Runtime: HACKING.md — representação G, M e P](https://go.dev/src/runtime/HACKING.md)
-- [Go blog: Share Memory By Communicating](https://go.dev/blog/codelab-share)
-
 Uma bibliografia consolidada do trabalho está em [referencias.md](referencias.md).
+
+---
+
+[Anterior: Contexto histórico e conceitos](1_historia_e_conceitos.md) | [Início](0_indice.md) | [Próximo: Comparativo técnico](3_comparativo_threads.md)
