@@ -57,7 +57,7 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 │   └── verificar.sh                        # Testa e compara as três implementações
 ├── go.mod                                  # Arquivo de módulo gerado pelo Go
 ├── main.go                                 # Ponto de entrada do CLI unificado
-├── INSTRUCTIONS.md                         # Instalação, execução e verificação
+├── instrucoes.md                           # Instalação, execução e verificação
 └── README.md                               # Visão geral do projeto
 ```
 
@@ -65,7 +65,7 @@ O repositório foi organizado da seguinte forma para facilitar a avaliação e o
 
 Para garantir a reprodutibilidade dos nossos experimentos, preparamos um guia passo a passo.
 
-Por favor, consulte o arquivo [**INSTRUCTIONS.md**](./INSTRUCTIONS.md) na raiz deste repositório. Lá você encontrará:
+Por favor, consulte o arquivo [**instrucoes.md**](./instrucoes.md) na raiz deste repositório. Lá você encontrará:
 
 * Requisitos de sistema (versão do Go, dependências, etc).  
 * Instruções de compilação e execução dos programas.

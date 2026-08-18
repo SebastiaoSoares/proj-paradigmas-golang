@@ -4,7 +4,7 @@ Este guia descreve como reproduzir o CLI e os exemplos do repositório a partir 
 
 ## Pré-requisitos
 
-* Go na versão declarada em `go.mod` (1.26.1);
+* Go 1.26.1 ou posterior, conforme a versão mínima declarada em `go.mod`;
 * Python 3.9 ou posterior, disponível como `python3` ou `python`;
 * Para o comparativo em C: sistema compatível com POSIX e compilador com suporte a pthreads (`cc`, GCC ou Clang);
 * Para a verificação automática do comparativo: shell POSIX e `diff`.
@@ -25,7 +25,7 @@ go run .
 Gera o arquivo executável otimizado. Recomendado para uso final.
 ```bash
 # Para compilar:
-go build -o app_paradigmas main.go
+go build -o app_paradigmas .
 
 # Para executar (Linux/macOS):
 ./app_paradigmas
@@ -34,16 +34,43 @@ go build -o app_paradigmas main.go
 app_paradigmas.exe
 ```
 
-## Como Navegar no Menu CLI
+## Como navegar no menu CLI
 
-O menu aceita frases com espaços, limpa a tela entre interações e usa cores ANSI. Para interagir com a aplicação:
+Após executar `go run .` ou iniciar o binário compilado, o menu apresenta as opções `1`, `2`, `3` e `0`. Digite somente o número desejado e pressione **Enter**.
 
-1. Observe as funcionalidades listadas na tela (ex: 1 - exemplos básicos, 2 - interoperabilidade, 3 - estudo de caso, 0 - encerramento).
-2. Digite no terminal o número correspondente à opção desejada.
-3. Pressione a tecla **Enter** para confirmar e executar a funcionalidade.
-4. Para retornar ou finalizar a aplicação, utilize a opção de saída (geralmente `0`).
+### Opção 1 — Exemplos básicos
 
-**Nota:** Para produzir logs sem cores, defina a variável de ambiente `NO_COLOR`. O monitoramento requer acesso à internet. Códigos HTTP e mensagens podem variar conforme a rede e a disponibilidade dos serviços. A URL inválida faz parte do exemplo e demonstra o tratamento de falhas.
+1. Digite `1` e pressione **Enter**.
+2. Observe o exemplo de `WaitGroup`, que aguarda a conclusão das goroutines.
+3. Em seguida, observe o exemplo de channels no padrão produtor–consumidor.
+4. Quando os dois exemplos terminarem, pressione **Enter** para voltar ao menu principal.
+
+### Opção 2 — Interoperabilidade Python
+
+1. Digite `2` e pressione **Enter**.
+2. No campo solicitado, digite o texto que deseja converter e pressione **Enter**. O texto pode conter espaços.
+3. O programa inicia o Python e exibe o texto convertido em letras maiúsculas.
+4. Pressione **Enter** para voltar ao menu principal.
+
+Essa opção requer que `python3` ou `python` esteja disponível no `PATH`.
+
+### Opção 3 — Estudo de caso: monitor de uptime
+
+1. Digite `3` e pressione **Enter**.
+2. Aguarde as seis verificações HTTP concorrentes terminarem.
+3. Confira o código HTTP das URLs disponíveis e as mensagens das URLs que falharam.
+4. Pressione **Enter** para voltar ao menu principal.
+
+Essa opção requer acesso à internet. Códigos HTTP e mensagens podem variar conforme a rede e a disponibilidade dos serviços. A URL `https://invalid-url-for-testing.local` é inválida propositalmente e demonstra o tratamento de falhas.
+
+### Opção 0 — Encerrar
+
+1. Digite `0` e pressione **Enter**.
+2. O programa exibe a mensagem de encerramento e finaliza.
+
+Se outro valor for informado, o programa mostra uma mensagem de opção inválida. Pressione **Enter** para voltar ao menu e tentar novamente.
+
+**Nota:** O menu limpa a tela entre interações e usa cores ANSI. Para produzir logs sem cores, defina a variável de ambiente `NO_COLOR` antes da execução.
 
 ## Comparativo Go, C/pthreads e Python
 

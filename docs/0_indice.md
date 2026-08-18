@@ -18,4 +18,4 @@ Esta documentação apresenta a linguagem Go com ênfase em concorrência basead
 
 ## Como reproduzir
 
-Consulte as [instruções de instalação e execução](../INSTRUCTIONS.md).
+Consulte as [instruções de instalação e execução](../instrucoes.md).
